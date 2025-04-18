@@ -1,6 +1,6 @@
 streamlit
 openai
-requests
 python-dotenv
 langchain + openai
+requests
 
