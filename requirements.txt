@@ -1,4 +1,5 @@
-ChatGroq
 streamlit
-requests
+langchain
+openai
 python-dotenv
+requests
