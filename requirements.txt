@@ -3,3 +3,4 @@ langchain
 openai
 requests
 python-dotenv
+git+https://github.com/langchain-ai/langchain-groq
