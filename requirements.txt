@@ -2,3 +2,6 @@ streamlit
 openai
 load_dotenv
 ChatGroq
+pandas
+requests
+Pillow
