@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
 from langchain_community.llms import HuggingFaceEndpoint
-from langchain_groq import ChatGroq
+import ChatGroq
+#from langchain_groq import ChatGroq
 import streamlit as st
 
 def main():
