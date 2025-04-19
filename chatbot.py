@@ -18,7 +18,7 @@ def main():
     llm = ChatOpenAI(
     base_url="https://api.groq.com/openai/v1",
     api_key=os.getenv("GROQ_API_KEY"),
-    model="meta-llama/Llama-3-8b-instruct"
+    model="openchat/openchat-3.5-0106"
     )
     #llm = ChatGroq(
     #    model="llama3-70b-8192",
