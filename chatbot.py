@@ -15,11 +15,16 @@ def main():
         return
 
     # ✅ Create LLM object
-    llm = ChatOpenAI(
-    base_url="https://api.groq.com/openai/v1",
-    api_key=os.getenv("GROQ_API_KEY"),
-    model="NousResearch/Nous-Hermes-2-Mistral-7B"
+    llm = HuggingFaceEndpoint(
+    repo_id="HuggingFaceH4/zephyr-7b-beta",  # ✅ or another available model
+    huggingfacehub_api_token=os.getenv("GROQ_API_KEY"),
+    task="text-generation"
     )
+    #llm = ChatOpenAI(
+    #base_url="https://api.groq.com/openai/v1",
+    #api_key=os.getenv("GROQ_API_KEY"),
+    #model="NousResearch/Nous-Hermes-2-Mistral-7B"
+    #)
     #llm = ChatGroq(
     #    model="llama3-70b-8192",
     #    temperature=0.7,
