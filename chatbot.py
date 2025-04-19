@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-from langchain_community.llms.huggingface_endpoint import HuggingFaceEndpoint
+from langchain_community.llms import HuggingFaceEndpoint
+#from langchain_community.llms.huggingface_endpoint import HuggingFaceEndpoint
 from langchain.chat_models import ChatOpenAI
 #from langchain_groq import ChatGroq
 import streamlit as st
