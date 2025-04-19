@@ -1,47 +1,32 @@
 import os
 from dotenv import load_dotenv
 from langchain_community.llms import HuggingFaceEndpoint
-#from langchain_community.llms.huggingface_endpoint import HuggingFaceEndpoint
-from langchain.chat_models import ChatOpenAI
-#from langchain_groq import ChatGroq
 import streamlit as st
 
 def main():
     # ✅ Load environment variables
     load_dotenv()
     
-    # ✅ Get API Key
-    api_key = os.getenv("GROQ_API_KEY")
+    # ✅ Get Hugging Face API Key
+    api_key = os.getenv("Huggingkey_new_token")
     if not api_key:
-        st.error("GROQ_API_KEY not found. Please set it in your .env file.")
+        st.error("Huggingkey_new_token not found. Please set it in your .env file.")
         return
 
-    # ✅ Create LLM object
-    llm = HuggingFaceEndpoint(
-    repo_id="google/flan-t5-large",
-    task="text2text-generation",
-    huggingfacehub_api_token=os.getenv("Huggingkey_new_token")
-    )
-    #llm = HuggingFaceEndpoint(
-    #repo_id="HuggingFaceH4/zephyr-7b-beta",  # ✅ or another available model
-    #huggingfacehub_api_token=os.getenv("Huggingkey_new_token"),
-    #task="text-generation"
-    #)
-    #llm = ChatOpenAI(
-    #base_url="https://api.groq.com/openai/v1",
-    #api_key=os.getenv("GROQ_API_KEY"),
-    #model="NousResearch/Nous-Hermes-2-Mistral-7B"
-    #)
-    #llm = ChatGroq(
-    #    model="llama3-70b-8192",
-    #    temperature=0.7,
-    #    api_key=api_key
-    #)
+    # ✅ Create LLM instance
+    try:
+        llm = HuggingFaceEndpoint(
+            repo_id="google/flan-t5-large",
+            task="text2text-generation",
+            huggingfacehub_api_token=api_key
+        )
+    except Exception as e:
+        st.error(f"⚠️ LLM Initialization Error: {e}")
+        return
 
     # ✅ Streamlit UI
     st.title("🤖 GenieChat\n\nYour AI assistant — by Selvakumar")
 
-    # Setup session history
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
 
@@ -50,36 +35,22 @@ def main():
         with st.chat_message(chat["role"], avatar=chat.get("avatar", "👤")):
             st.markdown(chat["content"])
 
-    # User input
+    # Input from user
     if user_input := st.chat_input("Ask something..."):
-        with st.chat_message("user" ,avatar="👤"):
+        with st.chat_message("user", avatar="👤"):
             st.markdown(user_input)
         st.session_state.chat_history.append({"role": "user", "content": user_input, "avatar": "👤"})
 
-        # System instruction
-        system_msg = {
-            "role": "system",
-            "content": "You are a helpful assistant who helps to answer user queries clearly and concisely."
-        }
-
-        # Build the full prompt
-        prompt = [system_msg]
-        for msg in st.session_state.chat_history:
-            prompt.append({"role": msg["role"].lower(), "content": msg["content"]})
-        prompt.append({"role": "user", "content": user_input , "avatar": "👤"})
-
-        # Call LLM
         try:
-            response = llm.invoke(prompt)
-            answer = response.content
+            # Only pass raw string
+            response = llm.invoke(user_input)
+            answer = response
         except Exception as e:
             answer = f"⚠️ Error: {e}"
-        
-        with st.chat_message("assistant",avatar="🤖"):
+
+        with st.chat_message("assistant", avatar="🤖"):
             st.markdown(answer)
         st.session_state.chat_history.append({"role": "assistant", "content": answer, "avatar": "🤖"})
-        
 
-# ✅ Entry point protection
 if __name__ == "__main__":
     main()
