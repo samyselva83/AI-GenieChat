@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-from langchain_groq import ChatGroq
+from langchain.chat_models import ChatOpenAI
+#from langchain_groq import ChatGroq
 import streamlit as st
 
 def main():
@@ -8,17 +9,22 @@ def main():
     load_dotenv()
     
     # ✅ Get API Key
-    api_key = os.getenv("GROQ_API_KEY")
+    #api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
         st.error("GROQ_API_KEY not found. Please set it in your .env file.")
         return
 
     # ✅ Create LLM object
-    llm = ChatGroq(
-        model="llama3-70b-8192",
-        temperature=0.7,
-        api_key=api_key
+    llm = ChatOpenAI(
+    base_url="https://api.groq.com/openai/v1",
+    api_key=os.getenv("GROQ_API_KEY"),
+    model="mixtral-8x7b-32768"
     )
+    #llm = ChatGroq(
+    #    model="llama3-70b-8192",
+    #    temperature=0.7,
+    #    api_key=api_key
+    #)
 
     # ✅ Streamlit UI
     st.title("🤖 GenieChat\n\nYour AI assistant — by Selvakumar")
