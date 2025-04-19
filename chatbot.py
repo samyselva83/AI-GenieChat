@@ -1,8 +1,7 @@
 import os
+import requests
 from dotenv import load_dotenv
 from langchain_community.llms import HuggingFaceEndpoint
-import ChatGroq
-#from langchain_groq import ChatGroq
 import streamlit as st
 
 def main():
@@ -31,11 +30,23 @@ def main():
         if not groq_api_key:
             st.error("GROQ_API_KEY not found.")
             return
-        llm = ChatGroq(
-            model="llama3-70b-8192",
-            api_key=groq_api_key,
-            temperature=0.7
-        )
+        # Groq API setup
+        groq_url = "https://api.groq.com/v1/chat"
+        headers = {
+            "Authorization": f"Bearer {groq_api_key}",
+            "Content-Type": "application/json"
+        }
+        
+        # Function to send user input to Groq API
+        def groq_inference(prompt):
+            data = {
+                "inputs": prompt
+            }
+            response = requests.post(groq_url, headers=headers, json=data)
+            if response.status_code == 200:
+                return response.json().get("output", "Sorry, no response.")
+            else:
+                return f"⚠️ Error: {response.status_code} - {response.text}"
 
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
@@ -53,7 +64,7 @@ def main():
             if model_choice == "HuggingFace":
                 answer = llm.invoke(user_input)
             else:
-                answer = llm.invoke(user_input).content
+                answer = groq_inference(user_input)
         except Exception as e:
             answer = f"⚠️ Error: {e}"
 
