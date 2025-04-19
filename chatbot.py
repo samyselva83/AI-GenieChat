@@ -17,10 +17,15 @@ def main():
 
     # ✅ Create LLM object
     llm = HuggingFaceEndpoint(
-    repo_id="HuggingFaceH4/zephyr-7b-beta",  # ✅ or another available model
-    huggingfacehub_api_token=os.getenv("Huggingkey_new_token"),
-    task="text-generation"
+    repo_id="google/flan-t5-large",
+    task="text2text-generation",
+    huggingfacehub_api_token=os.getenv("Huggingkey_new_token")
     )
+    #llm = HuggingFaceEndpoint(
+    #repo_id="HuggingFaceH4/zephyr-7b-beta",  # ✅ or another available model
+    #huggingfacehub_api_token=os.getenv("Huggingkey_new_token"),
+    #task="text-generation"
+    #)
     #llm = ChatOpenAI(
     #base_url="https://api.groq.com/openai/v1",
     #api_key=os.getenv("GROQ_API_KEY"),
