@@ -8,7 +8,7 @@ def main():
     # ✅ Load environment variables
     load_dotenv()
 
-    huggingface_token = os.getenv("Huggingkey_new_token")
+    huggingface_token = os.getenv("OPENROUTER_API_KEY")
     groq_api_key = os.getenv("GROQ_API_KEY")
 
     # ✅ Streamlit UI
