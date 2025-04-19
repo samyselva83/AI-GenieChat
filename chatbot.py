@@ -18,7 +18,7 @@ def main():
     # ✅ Create LLM object
     llm = HuggingFaceEndpoint(
     repo_id="HuggingFaceH4/zephyr-7b-beta",  # ✅ or another available model
-    huggingfacehub_api_token=os.getenv("GROQ_API_KEY"),
+    huggingfacehub_api_token=os.getenv("Huggingkey_new_token"),
     task="text-generation"
     )
     #llm = ChatOpenAI(
