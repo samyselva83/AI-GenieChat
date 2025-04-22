@@ -3,7 +3,7 @@ from langchain_groq import ChatGroq
 
 def main():
     # ✅ Get API Key from Streamlit Secrets
-    api_key = st.secrets["groq"]["api_key"]
+    api_key = st.secrets["groq"]["GROQ_API_KEY"]
 
     # ✅ Create LLM object
     llm = ChatGroq(
