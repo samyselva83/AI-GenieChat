@@ -7,8 +7,8 @@ def main():
 
     # ✅ Create LLM object
     llm = ChatGroq(
-        model= "bigscience/bloom",
-        #model="llama3-70b-8192",
+        #model= "bigscience/bloom",
+        model="llama3-70b-8192",
         temperature=0.7,
         api_key=api_key
     )
