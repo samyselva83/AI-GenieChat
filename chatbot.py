@@ -1,5 +1,22 @@
 import streamlit as st
 from langchain_groq import ChatGroq
+import datetime
+import requests
+
+# ✅ Helper: Get user IP address
+def get_user_ip():
+    try:
+        ip = requests.get("https://api.ipify.org").text
+    except:
+        ip = "Unknown"
+    return ip
+
+# ✅ Helper: Log access
+def log_access(query):
+    ip = get_user_ip()
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open("access_log.txt", "a") as f:
+        f.write(f"{timestamp} | IP: {ip} | Query: {query}\n")
 
 def main():
     # ✅ Get API Key from Streamlit Secrets
@@ -7,7 +24,6 @@ def main():
 
     # ✅ Create LLM object
     llm = ChatGroq(
-        #model= "bigscience/bloom",
         model="llama3-70b-8192",
         temperature=0.7,
         api_key=api_key
@@ -30,6 +46,9 @@ def main():
         with st.chat_message("user", avatar="👤"):
             st.markdown(user_input)
         st.session_state.chat_history.append({"role": "user", "content": user_input, "avatar": "👤"})
+
+        # ✅ Log the query
+        log_access(user_input)
 
         # System message
         system_msg = {
